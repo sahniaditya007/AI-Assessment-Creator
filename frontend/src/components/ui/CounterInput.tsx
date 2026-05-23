@@ -13,53 +13,41 @@ export function CounterInput({
   min = 1,
   max = 99,
 }: CounterInputProps) {
+  const canDecrement = value > min;
+  const canIncrement = value < max;
+
   return (
-    <div className="pill-input-white flex w-[100px] justify-between px-2">
+    <div className="pill-input-white flex h-11 w-[108px] select-none items-center justify-between px-1">
+      {/* Decrease button — full height, generous hit area */}
       <button
         type="button"
-        onClick={() => onChange(Math.max(min, value - 1))}
-        className="flex h-4 w-4 items-center justify-center text-border-muted disabled:opacity-40"
-        disabled={value <= min}
+        onClick={() => canDecrement && onChange(value - 1)}
+        disabled={!canDecrement}
         aria-label="Decrease"
+        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition hover:bg-bg-off-white-20 disabled:cursor-not-allowed disabled:opacity-30"
       >
-        <MinusIcon active={value > min} />
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M2 7H12" stroke="#303030" strokeWidth="2" strokeLinecap="round" />
+        </svg>
       </button>
-      <span className="text-p-3 font-medium">{value}</span>
+
+      {/* Value — not clickable */}
+      <span className="w-6 text-center text-p-3 font-medium text-primary">
+        {value}
+      </span>
+
+      {/* Increase button — full height, generous hit area */}
       <button
         type="button"
-        onClick={() => onChange(Math.min(max, value + 1))}
-        className="flex h-4 w-4 items-center justify-center"
-        disabled={value >= max}
+        onClick={() => canIncrement && onChange(value + 1)}
+        disabled={!canIncrement}
         aria-label="Increase"
+        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition hover:bg-bg-off-white-20 disabled:cursor-not-allowed disabled:opacity-30"
       >
-        <PlusIcon />
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M7 2V12M2 7H12" stroke="#303030" strokeWidth="2" strokeLinecap="round" />
+        </svg>
       </button>
     </div>
-  );
-}
-
-function MinusIcon({ active }: { active: boolean }) {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16">
-      <path
-        d="M3 8H13"
-        stroke={active ? "#303030" : "#DADADA"}
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function PlusIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16">
-      <path
-        d="M8 3V13M3 8H13"
-        stroke="#DADADA"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
   );
 }

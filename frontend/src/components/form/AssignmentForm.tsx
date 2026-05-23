@@ -137,22 +137,26 @@ export function AssignmentForm() {
           {/* Due date */}
           <div className="flex flex-col gap-2">
             <label className="text-p-3 font-bold text-primary" htmlFor="due-date">Due Date</label>
-            <div
-              className="pill-input bg-transparent cursor-pointer"
-              onClick={() => {
-                const el = document.getElementById("due-date") as HTMLInputElement | null;
-                el?.showPicker?.();
-              }}
-            >
+            <div className="pill-input bg-transparent">
               <input
                 id="due-date"
                 type="date"
-                className="flex-1 bg-transparent text-p-3 font-medium text-primary outline-none cursor-pointer [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+                className="flex-1 bg-transparent text-p-3 font-medium text-primary outline-none [&::-webkit-calendar-picker-indicator]:hidden"
                 value={form.dueDate}
                 min={new Date().toISOString().split("T")[0]}
                 onChange={(e) => setField("dueDate", e.target.value)}
               />
-              <CalendarIcon />
+              <button
+                type="button"
+                aria-label="Open date picker"
+                className="flex shrink-0 items-center justify-center rounded-full p-1 transition hover:bg-bg-off-white-20"
+                onClick={() => {
+                  const el = document.getElementById("due-date") as HTMLInputElement | null;
+                  el?.showPicker?.();
+                }}
+              >
+                <CalendarIcon />
+              </button>
             </div>
             {formErrors.dueDate && (
               <span className="text-p-4 text-red-600">{formErrors.dueDate}</span>
