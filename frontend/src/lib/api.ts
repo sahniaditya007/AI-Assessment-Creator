@@ -1,24 +1,37 @@
 import type { Assignment, GeneratedPaper } from "@/types/assessment";
 import type { AssignmentFormState } from "@/types/assessment";
 
-function getDefaultApiUrl(): string {
-  if (typeof window !== "undefined") {
-    return `${window.location.origin}/_/backend`;
+function getApiUrl(): string {
+  const configured = process.env.NEXT_PUBLIC_API_URL;
+  if (configured) {
+    return configured;
   }
-  return "http://localhost:4000";
+
+  if (typeof window !== "undefined") {
+    const isLocalHost =
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1";
+    if (isLocalHost) {
+      return "http://localhost:4000";
+    }
+  }
+
+  throw new Error(
+    "NEXT_PUBLIC_API_URL is not set. Configure it in Vercel to point to your Railway backend."
+  );
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? getDefaultApiUrl();
-
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`${API_URL}${path}`, init);
+  const apiUrl = getApiUrl();
+  const requestUrl = `${apiUrl}${path}`;
+  const res = await fetch(requestUrl, init);
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
     const message =
       typeof body.error === "string"
         ? body.error
         : body.error?.formErrors?.[0] ?? `Request failed (${res.status})`;
-    throw new Error(message);
+    throw new Error(`${message} [${requestUrl}]`);
   }
   return res.json() as Promise<T>;
 }
@@ -73,7 +86,7 @@ export async function getPaper(
 }
 
 export function getPdfDownloadUrl(id: string): string {
-  return `${API_URL}/api/assignments/${id}/pdf`;
+  return `${getApiUrl()}/api/assignments/${id}/pdf`;
 }
 
 export async function queuePdfGeneration(id: string): Promise<void> {
