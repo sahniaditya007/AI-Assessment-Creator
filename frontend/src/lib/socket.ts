@@ -4,7 +4,7 @@ import type { JobProgressEvent } from "@/types/assessment";
 function getWsUrl(): string {
   const configured = process.env.NEXT_PUBLIC_WS_URL;
   if (configured) {
-    return configured;
+    return configured.replace(/\/+$/, "");
   }
 
   if (typeof window !== "undefined") {

@@ -4,7 +4,7 @@ import type { AssignmentFormState } from "@/types/assessment";
 function getApiUrl(): string {
   const configured = process.env.NEXT_PUBLIC_API_URL;
   if (configured) {
-    return configured;
+    return configured.replace(/\/+$/, "");
   }
 
   if (typeof window !== "undefined") {
