@@ -3,11 +3,137 @@ import type {
   Assignment,
   AssignmentFormState,
   AssignmentStatus,
+  ClassLevel,
   GeneratedPaper,
   JobProgressEvent,
   QuestionType,
   QuestionTypeConfig,
 } from "@/types/assessment";
+
+type SubjectOption = {
+  value: string;
+  label: string;
+};
+
+export const CLASS_OPTIONS: { value: ClassLevel; label: string }[] = [
+  { value: "1st", label: "Class 1" },
+  { value: "2nd", label: "Class 2" },
+  { value: "3rd", label: "Class 3" },
+  { value: "4th", label: "Class 4" },
+  { value: "5th", label: "Class 5" },
+  { value: "6th", label: "Class 6" },
+  { value: "7th", label: "Class 7" },
+  { value: "8th", label: "Class 8" },
+  { value: "9th", label: "Class 9" },
+  { value: "10th", label: "Class 10" },
+  { value: "11th", label: "Class 11" },
+  { value: "12th", label: "Class 12" },
+];
+
+const SUBJECT_OPTIONS_BY_CLASS: Record<ClassLevel, SubjectOption[]> = {
+  "1st": [
+    { value: "English", label: "English" },
+    { value: "Mathematics", label: "Mathematics" },
+    { value: "Environmental Studies", label: "Environmental Studies" },
+    { value: "Hindi", label: "Hindi" },
+  ],
+  "2nd": [
+    { value: "English", label: "English" },
+    { value: "Mathematics", label: "Mathematics" },
+    { value: "Environmental Studies", label: "Environmental Studies" },
+    { value: "Hindi", label: "Hindi" },
+  ],
+  "3rd": [
+    { value: "English", label: "English" },
+    { value: "Mathematics", label: "Mathematics" },
+    { value: "Environmental Studies", label: "Environmental Studies" },
+    { value: "Hindi", label: "Hindi" },
+  ],
+  "4th": [
+    { value: "English", label: "English" },
+    { value: "Mathematics", label: "Mathematics" },
+    { value: "Science", label: "Science" },
+    { value: "Hindi", label: "Hindi" },
+    { value: "Social Studies", label: "Social Studies" },
+  ],
+  "5th": [
+    { value: "English", label: "English" },
+    { value: "Mathematics", label: "Mathematics" },
+    { value: "Science", label: "Science" },
+    { value: "Hindi", label: "Hindi" },
+    { value: "Social Studies", label: "Social Studies" },
+  ],
+  "6th": [
+    { value: "English", label: "English" },
+    { value: "Mathematics", label: "Mathematics" },
+    { value: "Science", label: "Science" },
+    { value: "Social Science", label: "Social Science" },
+    { value: "Hindi", label: "Hindi" },
+    { value: "Computer Science", label: "Computer Science" },
+  ],
+  "7th": [
+    { value: "English", label: "English" },
+    { value: "Mathematics", label: "Mathematics" },
+    { value: "Science", label: "Science" },
+    { value: "Social Science", label: "Social Science" },
+    { value: "Hindi", label: "Hindi" },
+    { value: "Computer Science", label: "Computer Science" },
+  ],
+  "8th": [
+    { value: "English", label: "English" },
+    { value: "Mathematics", label: "Mathematics" },
+    { value: "Science", label: "Science" },
+    { value: "Social Science", label: "Social Science" },
+    { value: "Hindi", label: "Hindi" },
+    { value: "Computer Science", label: "Computer Science" },
+  ],
+  "9th": [
+    { value: "English", label: "English" },
+    { value: "Mathematics", label: "Mathematics" },
+    { value: "Science", label: "Science" },
+    { value: "Social Science", label: "Social Science" },
+    { value: "Hindi", label: "Hindi" },
+    { value: "Computer Applications", label: "Computer Applications" },
+  ],
+  "10th": [
+    { value: "English", label: "English" },
+    { value: "Mathematics", label: "Mathematics" },
+    { value: "Science", label: "Science" },
+    { value: "Social Science", label: "Social Science" },
+    { value: "Hindi", label: "Hindi" },
+    { value: "Computer Applications", label: "Computer Applications" },
+  ],
+  "11th": [
+    { value: "English", label: "English" },
+    { value: "Mathematics", label: "Mathematics" },
+    { value: "Physics", label: "Physics" },
+    { value: "Chemistry", label: "Chemistry" },
+    { value: "Biology", label: "Biology" },
+    { value: "Accountancy", label: "Accountancy" },
+    { value: "Business Studies", label: "Business Studies" },
+    { value: "Economics", label: "Economics" },
+    { value: "Computer Science", label: "Computer Science" },
+  ],
+  "12th": [
+    { value: "English", label: "English" },
+    { value: "Mathematics", label: "Mathematics" },
+    { value: "Physics", label: "Physics" },
+    { value: "Chemistry", label: "Chemistry" },
+    { value: "Biology", label: "Biology" },
+    { value: "Accountancy", label: "Accountancy" },
+    { value: "Business Studies", label: "Business Studies" },
+    { value: "Economics", label: "Economics" },
+    { value: "Computer Science", label: "Computer Science" },
+  ],
+};
+
+export function getSubjectOptions(classLevel: ClassLevel): SubjectOption[] {
+  return SUBJECT_OPTIONS_BY_CLASS[classLevel] ?? [];
+}
+
+export function getDefaultSubject(classLevel: ClassLevel): string {
+  return getSubjectOptions(classLevel)[0]?.value ?? "";
+}
 
 const defaultQuestionType = (): QuestionTypeConfig => ({
   type: "mcq",
@@ -17,7 +143,8 @@ const defaultQuestionType = (): QuestionTypeConfig => ({
 
 const initialForm: AssignmentFormState = {
   title: "",
-  subject: "",
+  classLevel: "5th",
+  subject: getDefaultSubject("5th"),
   dueDate: "",
   questionTypes: [defaultQuestionType()],
   totalQuestions: 5,
@@ -146,6 +273,8 @@ export const useAssignmentStore = create<AssignmentStore>((set, get) => ({
     const errors: Record<string, string> = {};
 
     if (!form.title.trim()) errors.title = "Title is required";
+    if (!form.classLevel) errors.classLevel = "Class is required";
+    if (!form.subject.trim()) errors.subject = "Subject is required";
     if (!form.dueDate) errors.dueDate = "Due date is required";
     else {
       // Compare date strings directly (YYYY-MM-DD) to avoid timezone issues
@@ -153,6 +282,15 @@ export const useAssignmentStore = create<AssignmentStore>((set, get) => ({
       if (form.dueDate < today) {
         errors.dueDate = "Due date cannot be in the past";
       }
+    }
+
+    if (
+      form.subject &&
+      !getSubjectOptions(form.classLevel).some(
+        (option) => option.value === form.subject
+      )
+    ) {
+      errors.subject = "Choose a subject that matches the selected class";
     }
 
     if (form.totalQuestions <= 0) {

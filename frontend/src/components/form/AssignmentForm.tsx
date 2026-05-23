@@ -1,10 +1,13 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
+  CLASS_OPTIONS,
   QUESTION_TYPE_OPTIONS,
+  getDefaultSubject,
+  getSubjectOptions,
   useAssignmentStore,
 } from "@/store/assignmentStore";
 import { createAssignment, triggerGeneration } from "@/lib/api";
@@ -28,6 +31,14 @@ export function AssignmentForm() {
     validateForm,
     setCurrentAssignment,
   } = useAssignmentStore();
+
+  const subjectOptions = getSubjectOptions(form.classLevel);
+
+  useEffect(() => {
+    if (!subjectOptions.some((option) => option.value === form.subject)) {
+      setField("subject", getDefaultSubject(form.classLevel));
+    }
+  }, [form.classLevel, form.subject, setField, subjectOptions]);
 
   const selectRefs = useRef<HTMLSelectElement[]>([]);
 
@@ -68,6 +79,71 @@ export function AssignmentForm() {
         </div>
 
         <div className="flex flex-col gap-4">
+          {/* Class and subject */}
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="flex flex-col gap-2">
+              <label className="text-p-3 font-bold text-primary" htmlFor="class-level">
+                Class
+              </label>
+              <div className="pill-input-white relative">
+                <select
+                  id="class-level"
+                  className="w-full appearance-none bg-transparent pr-8 text-p-3 font-medium text-primary outline-none"
+                  value={form.classLevel}
+                  onChange={(e) => {
+                    const nextClass = e.target.value as typeof form.classLevel;
+                    const nextSubjectOptions = getSubjectOptions(nextClass);
+                    const nextSubject = nextSubjectOptions.some(
+                      (option) => option.value === form.subject
+                    )
+                      ? form.subject
+                      : nextSubjectOptions[0]?.value ?? "";
+                    setField("classLevel", nextClass);
+                    setField("subject", nextSubject);
+                  }}
+                >
+                  {CLASS_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
+                  <ChevronDown />
+                </div>
+              </div>
+              {formErrors.classLevel && (
+                <span className="text-p-4 text-red-600">{formErrors.classLevel}</span>
+              )}
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label className="text-p-3 font-bold text-primary" htmlFor="subject">
+                Subject
+              </label>
+              <div className="pill-input-white relative">
+                <select
+                  id="subject"
+                  className="w-full appearance-none bg-transparent pr-8 text-p-3 font-medium text-primary outline-none"
+                  value={form.subject}
+                  onChange={(e) => setField("subject", e.target.value)}
+                >
+                  {subjectOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
+                  <ChevronDown />
+                </div>
+              </div>
+              {formErrors.subject && (
+                <span className="text-p-4 text-red-600">{formErrors.subject}</span>
+              )}
+            </div>
+          </div>
+
           {/* Title */}
           <div className="flex flex-col gap-2">
             <label className="text-p-3 font-bold text-primary">
@@ -192,7 +268,9 @@ export function AssignmentForm() {
                 {/* Dropdown */}
                 <div className="pill-input-white relative flex flex-1 justify-between min-w-0">
                   <select
-                    ref={(el) => (selectRefs.current[index] = el as HTMLSelectElement)}
+                    ref={(el) => {
+                      selectRefs.current[index] = el as HTMLSelectElement;
+                    }}
                     className="flex-1 min-w-0 pr-8 appearance-none bg-transparent text-p-3 font-medium outline-none truncate"
                     value={qt.type}
                     onChange={(e) =>
@@ -215,11 +293,11 @@ export function AssignmentForm() {
                 {/* Count */}
                 <div className="flex gap-3">
                   <CounterInput
-                  value={qt.count}
-                  onChange={(count) => updateQuestionType(index, { count })}
-                />
+                    value={qt.count}
+                    onChange={(count) => updateQuestionType(index, { count })}
+                  />
 
-                {/* Marks per question */}
+                  {/* Marks per question */}
                   <CounterInput
                     value={qt.marksPerQuestion}
                     onChange={(marksPerQuestion) =>
@@ -317,7 +395,8 @@ export function AssignmentForm() {
             {submitting ? "Generating..." : "Continue"}
             {!submitting && <ArrowRightSmall />}
           </button>
-        </div>      </div>
+          </div>
+        </div>
     </form>
   );
 }

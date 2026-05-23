@@ -66,6 +66,7 @@ export function buildGenerationPrompt(input: AssignmentInput): string {
 ASSIGNMENT DETAILS
 ==================
 Title: ${input.title}
+Class Level: ${input.classLevel}
 ${input.subject ? `Subject: ${input.subject}` : "Subject: General"}
 Total Questions: ${input.totalQuestions}
 Total Marks: ${input.totalMarks}

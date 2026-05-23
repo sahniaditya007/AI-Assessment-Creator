@@ -1,4 +1,17 @@
 export type Difficulty = "easy" | "medium" | "hard";
+export type ClassLevel =
+  | "1st"
+  | "2nd"
+  | "3rd"
+  | "4th"
+  | "5th"
+  | "6th"
+  | "7th"
+  | "8th"
+  | "9th"
+  | "10th"
+  | "11th"
+  | "12th";
 export type QuestionType =
   | "mcq"
   | "short_answer"
@@ -21,6 +34,7 @@ export interface QuestionTypeConfig {
 
 export interface AssignmentFormState {
   title: string;
+  classLevel: ClassLevel;
   subject: string;
   dueDate: string;
   questionTypes: QuestionTypeConfig[];
@@ -69,6 +83,7 @@ export interface JobProgressEvent {
 export interface Assignment {
   _id: string;
   title: string;
+  classLevel?: ClassLevel;
   subject?: string;
   dueDate: string;
   questionTypes: QuestionTypeConfig[];

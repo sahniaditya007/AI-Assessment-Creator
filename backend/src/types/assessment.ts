@@ -21,6 +21,7 @@ export interface QuestionTypeConfig {
 
 export interface AssignmentInput {
   title: string;
+  classLevel: string;
   subject?: string;
   dueDate: string;
   questionTypes: QuestionTypeConfig[];

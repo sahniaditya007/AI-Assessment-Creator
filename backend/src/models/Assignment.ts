@@ -7,6 +7,7 @@ import type {
 
 export interface IAssignment extends Document {
   title: string;
+  classLevel?: string;
   subject?: string;
   dueDate: Date;
   questionTypes: QuestionTypeConfig[];
@@ -40,6 +41,24 @@ const QuestionTypeConfigSchema = new Schema(
 const AssignmentSchema = new Schema<IAssignment>(
   {
     title: { type: String, required: true, trim: true },
+    classLevel: {
+      type: String,
+      enum: [
+        "1st",
+        "2nd",
+        "3rd",
+        "4th",
+        "5th",
+        "6th",
+        "7th",
+        "8th",
+        "9th",
+        "10th",
+        "11th",
+        "12th",
+      ],
+      trim: true,
+    },
     subject: { type: String, trim: true },
     dueDate: { type: Date, required: true },
     questionTypes: { type: [QuestionTypeConfigSchema], required: true },

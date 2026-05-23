@@ -17,7 +17,9 @@ export default function PaperPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const { paper, setPaper, generationStatus } = useAssignmentStore();
+  const { paper, setPaper, currentAssignment, setCurrentAssignment, generationStatus } = useAssignmentStore();
+
+  const classLevel = currentAssignment?.classLevel ?? "5th";
 
   useGenerationSocket(id);
 
@@ -25,6 +27,7 @@ export default function PaperPage() {
     async function load() {
       try {
         const assignment = await getAssignment(id);
+        setCurrentAssignment(assignment);
         if (assignment.paper) {
           setPaper(assignment.paper);
           setLoading(false);
@@ -98,7 +101,7 @@ export default function PaperPage() {
             </div>
           )}
 
-          <ExamPaper paper={paper} />
+          <ExamPaper paper={paper} classLevel={classLevel} />
         </div>
       </div>
     </AppShell>

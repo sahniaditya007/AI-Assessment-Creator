@@ -70,6 +70,7 @@ router.post("/", upload.single("sourceFile"), async (req, res, next) => {
 
     const parsed = CreateAssignmentSchema.safeParse({
       title: req.body.title,
+      classLevel: req.body.classLevel,
       subject: req.body.subject || undefined,
       dueDate: req.body.dueDate,
       questionTypes: questionTypesRaw,
@@ -116,6 +117,7 @@ router.post("/", upload.single("sourceFile"), async (req, res, next) => {
 
     const assignment = await Assignment.create({
       title: body.title,
+      classLevel: body.classLevel,
       subject: body.subject,
       dueDate,
       questionTypes: body.questionTypes,

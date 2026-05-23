@@ -41,7 +41,8 @@ export async function createAssignment(
 ): Promise<Assignment> {
   const data = new FormData();
   data.append("title", form.title);
-  if (form.subject) data.append("subject", form.subject);
+  data.append("classLevel", form.classLevel);
+  data.append("subject", form.subject);
   data.append("dueDate", form.dueDate);
   data.append("questionTypes", JSON.stringify(form.questionTypes));
   data.append("totalQuestions", String(form.totalQuestions));

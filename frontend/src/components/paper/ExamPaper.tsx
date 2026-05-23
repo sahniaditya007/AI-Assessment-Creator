@@ -6,13 +6,13 @@ import { DifficultyBadge } from "./DifficultyBadge";
 interface ExamPaperProps {
   paper: GeneratedPaper;
   schoolName?: string;
-  className?: string;
+  classLevel?: string;
 }
 
 export function ExamPaper({
   paper,
   schoolName = "Delhi Public School, Sector-4, Bokaro",
-  className: classLabel = "5th",
+  classLevel = "5th",
 }: ExamPaperProps) {
   return (
     <article className="rounded-4xl bg-white p-5 font-inter md:p-8">
@@ -22,7 +22,7 @@ export function ExamPaper({
           <br />
           {paper.subject ? `Subject: ${paper.subject}` : ""}
           {paper.subject && <br />}
-          Class: {classLabel}
+          Class: {classLevel}
         </h1>
       </header>
 
@@ -38,7 +38,7 @@ export function ExamPaper({
       <div className="mt-3 space-y-1 text-sm font-semibold leading-[160%] tracking-[-0.04em] text-primary md:mt-4 md:text-lg">
         <p>Name: ______________________</p>
         <p>Roll Number: ________________</p>
-        <p>Class: {classLabel} &nbsp; Section: __________</p>
+        <p>Class: {classLevel} &nbsp; Section: __________</p>
       </div>
 
       {paper.sections.map((section) => (

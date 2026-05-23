@@ -61,6 +61,7 @@ export function createGenerationWorker(): Worker<GenerationJobData> {
 
       const input: AssignmentInput = {
         title: assignment.title,
+        classLevel: assignment.classLevel ?? "5th",
         subject: assignment.subject,
         dueDate: assignment.dueDate.toISOString(),
         questionTypes: assignment.questionTypes,
