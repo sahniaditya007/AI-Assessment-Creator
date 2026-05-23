@@ -1,0 +1,101 @@
+# ─────────────────────────────────────────────
+#  VedaAI Assessment Creator — .gitignore
+# ─────────────────────────────────────────────
+
+# ── Dependencies ──────────────────────────────
+node_modules/
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# ── Environment / Secrets ─────────────────────
+# Never commit real keys or local overrides
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+# Keep the example files so others know what vars are needed
+!.env.example
+!**/.env.example
+
+# ── TypeScript build output ───────────────────
+# Backend compiled JS (backend/dist/)
+dist/
+# TypeScript incremental build info
+*.tsbuildinfo
+
+# ── Next.js build output ──────────────────────
+# Full Next.js build cache and output (frontend/.next/)
+.next/
+# Static export output
+out/
+
+# ── Uploaded files ────────────────────────────
+# User-uploaded source documents and generated PDFs
+# Keep the placeholder so the folder exists in git
+uploads/*
+!uploads/.gitkeep
+
+# ── Logs ──────────────────────────────────────
+*.log
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+logs/
+
+# ── OS / Editor artifacts ─────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+
+# JetBrains IDEs (WebStorm, IntelliJ)
+.idea/
+*.iml
+*.iws
+
+# Vim / Emacs swap files
+*.swp
+*.swo
+*~
+
+# ── Test & Coverage ───────────────────────────
+coverage/
+.nyc_output/
+*.lcov
+
+# ── Build tools / Caches ──────────────────────
+# Turbopack / Turborepo
+.turbo/
+# Vite
+.vite/
+# Parcel
+.parcel-cache/
+# SWC (Next.js native compiler cache)
+.swc/
+
+# ── Docker ────────────────────────────────────
+# Don't ignore docker-compose.yml — it's needed for local dev
+# Ignore any local override files
+docker-compose.override.yml
+docker-compose.local.yml
+
+# ── Misc ──────────────────────────────────────
+# Vercel deployment config (if added later)
+.vercel
+# Next.js auto-generated type declarations (regenerated on build)
+next-env.d.ts

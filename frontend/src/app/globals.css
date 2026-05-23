@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-canvas font-sans text-primary antialiased;
+  }
+}
+
+@layer components {
+  .pill-input {
+    @apply flex h-11 w-full items-center justify-between rounded-pill border-[1.25px] border-border-muted bg-transparent px-4 text-p-3 font-medium text-primary transition focus-within:border-primary focus-within:outline-none;
+  }
+
+  .pill-input-white {
+    @apply flex h-11 items-center justify-between rounded-pill bg-white px-4 text-p-3 font-medium text-primary;
+  }
+
+  .btn-dark {
+    @apply inline-flex items-center justify-center gap-1 rounded-pill bg-btn-primary px-6 py-3 text-p-3 font-medium text-white transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .btn-white {
+    @apply inline-flex items-center justify-center gap-1 rounded-pill bg-white px-6 py-3 text-p-3 font-medium text-primary transition hover:bg-bg-off-white disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .btn-grey-pill {
+    @apply inline-flex items-center justify-center rounded-pill bg-bg-off-white px-6 py-2 text-p-4 font-medium text-primary transition hover:bg-bg-off-white-20;
+  }
+
+  .section-heading {
+    @apply text-p-1 font-bold text-primary;
+  }
+
+  .section-sub {
+    @apply text-p-4 text-secondary;
+  }
+
+  .form-panel {
+    @apply rounded-4xl bg-white/50 p-8;
+  }
+
+  .upload-zone {
+    @apply flex flex-col items-center justify-center gap-4 rounded-3xl border-[1.75px] border-dashed border-black/20 bg-white px-8 py-6;
+  }
+
+  .instructions-box {
+    @apply flex min-h-[102px] flex-col justify-between rounded-2xl border-[1.25px] border-dashed border-border-muted bg-white/25 p-4;
+  }
+}
