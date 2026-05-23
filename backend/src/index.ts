@@ -3,7 +3,7 @@ import cors from "cors";
 import http from "http";
 import mongoose from "mongoose";
 import fs from "fs";
-import { env } from "./config/env.js";
+import { env, isAllowedFrontendOrigin } from "./config/env.js";
 import assignmentRoutes from "./routes/assignments.js";
 import { initWebSocket } from "./websocket/io.js";
 import { createGenerationWorker } from "./workers/generationWorker.js";
@@ -16,7 +16,14 @@ initWebSocket(server);
 
 app.use(
   cors({
-    origin: env.frontendOrigins,
+    origin: (origin, callback) => {
+      if (isAllowedFrontendOrigin(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error(`CORS blocked for origin: ${origin ?? "unknown"}`));
+    },
     credentials: true,
   })
 );

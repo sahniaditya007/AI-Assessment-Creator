@@ -12,6 +12,25 @@ function parseFrontendOrigins(): string[] {
     .filter(Boolean);
 }
 
+export function isAllowedFrontendOrigin(origin?: string): boolean {
+  if (!origin) {
+    return true;
+  }
+
+  const allowedOrigins = parseFrontendOrigins();
+  if (allowedOrigins.includes(origin)) {
+    return true;
+  }
+
+  try {
+    const parsed = new URL(origin);
+    const hostname = parsed.hostname.toLowerCase();
+    return hostname === "vercel.app" || hostname.endsWith(".vercel.app");
+  } catch {
+    return false;
+  }
+}
+
 function resolveUploadDir(): string {
   const configured = process.env.UPLOAD_DIR ?? "uploads";
   const resolved = path.resolve(configured);

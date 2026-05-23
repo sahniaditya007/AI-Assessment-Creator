@@ -1,6 +1,6 @@
 import type { Server as HttpServer } from "http";
 import { Server } from "socket.io";
-import { env } from "../config/env.js";
+import { env, isAllowedFrontendOrigin } from "../config/env.js";
 import type { JobProgressEvent } from "../types/assessment.js";
 
 let io: Server | null = null;
@@ -8,7 +8,14 @@ let io: Server | null = null;
 export function initWebSocket(httpServer: HttpServer): Server {
   io = new Server(httpServer, {
     cors: {
-      origin: env.frontendOrigins,
+      origin: (origin, callback) => {
+        if (isAllowedFrontendOrigin(origin)) {
+          callback(null, true);
+          return;
+        }
+
+        callback(new Error(`Socket.IO blocked for origin: ${origin ?? "unknown"}`));
+      },
       methods: ["GET", "POST"],
     },
   });
