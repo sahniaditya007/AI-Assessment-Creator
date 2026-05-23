@@ -3,6 +3,9 @@ import path from "path";
 
 dotenv.config();
 
+const isVercel = process.env.VERCEL === "1" || process.env.VERCEL === "true";
+const defaultUploadDir = isVercel ? "/tmp/uploads" : "uploads";
+
 export const env = {
   port: parseInt(process.env.PORT ?? "4000", 10),
   mongodbUri:
@@ -20,5 +23,5 @@ export const env = {
     process.env.USE_MOCK_AI === "true" || !process.env.OPENROUTER_API_KEY,
 
   frontendUrl: process.env.FRONTEND_URL ?? "http://localhost:3000",
-  uploadDir: path.resolve(process.env.UPLOAD_DIR ?? "uploads"),
+  uploadDir: path.resolve(process.env.UPLOAD_DIR ?? defaultUploadDir),
 };
