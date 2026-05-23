@@ -29,6 +29,8 @@ export function AssignmentForm() {
     setCurrentAssignment,
   } = useAssignmentStore();
 
+  const selectRefs = useRef<HTMLSelectElement[]>([]);
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitError("");
@@ -183,11 +185,15 @@ export function AssignmentForm() {
 
             {/* One row per question type */}
             {form.questionTypes.map((qt, index) => (
-              <div key={index} className="flex items-center gap-3">
+              <div
+                key={index}
+                className="flex flex-col sm:flex-row sm:items-center gap-3"
+              >
                 {/* Dropdown */}
-                <div className="pill-input-white flex flex-1 justify-between">
+                <div className="pill-input-white relative flex flex-1 justify-between min-w-0">
                   <select
-                    className="flex-1 appearance-none bg-transparent text-p-3 font-medium outline-none"
+                    ref={(el) => (selectRefs.current[index] = el as HTMLSelectElement)}
+                    className="flex-1 min-w-0 pr-8 appearance-none bg-transparent text-p-3 font-medium outline-none truncate"
                     value={qt.type}
                     onChange={(e) =>
                       updateQuestionType(index, {
@@ -201,22 +207,26 @@ export function AssignmentForm() {
                       </option>
                     ))}
                   </select>
-                  <ChevronDown />
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                    <ChevronDown />
+                  </div>
                 </div>
 
                 {/* Count */}
-                <CounterInput
+                <div className="flex gap-3">
+                  <CounterInput
                   value={qt.count}
                   onChange={(count) => updateQuestionType(index, { count })}
                 />
 
                 {/* Marks per question */}
-                <CounterInput
-                  value={qt.marksPerQuestion}
-                  onChange={(marksPerQuestion) =>
-                    updateQuestionType(index, { marksPerQuestion })
-                  }
-                />
+                  <CounterInput
+                    value={qt.marksPerQuestion}
+                    onChange={(marksPerQuestion) =>
+                      updateQuestionType(index, { marksPerQuestion })
+                    }
+                  />
+                </div>
 
                 {/* Remove button */}
                 {form.questionTypes.length > 1 ? (
@@ -235,7 +245,7 @@ export function AssignmentForm() {
             ))}
 
             {/* Add button + totals */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row items-center justify-between">
               <button
                 type="button"
                 onClick={addQuestionType}
@@ -249,7 +259,7 @@ export function AssignmentForm() {
                 </span>
               </button>
 
-              <div className="text-right">
+              <div className="text-right mt-2 sm:mt-0">
                 <p className="text-p-3 font-medium text-primary">
                   Total Questions : {form.totalQuestions}
                 </p>

@@ -24,7 +24,7 @@ export function CounterInput({
         onClick={() => canDecrement && onChange(value - 1)}
         disabled={!canDecrement}
         aria-label="Decrease"
-        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition hover:bg-bg-off-white-20 disabled:cursor-not-allowed disabled:opacity-30"
+        className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition hover:bg-bg-off-white-20 disabled:cursor-not-allowed disabled:opacity-30"
       >
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <path d="M2 7H12" stroke="#303030" strokeWidth="2" strokeLinecap="round" />
@@ -42,7 +42,7 @@ export function CounterInput({
         onClick={() => canIncrement && onChange(value + 1)}
         disabled={!canIncrement}
         aria-label="Increase"
-        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition hover:bg-bg-off-white-20 disabled:cursor-not-allowed disabled:opacity-30"
+        className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition hover:bg-bg-off-white-20 disabled:cursor-not-allowed disabled:opacity-30"
       >
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <path d="M7 2V12M2 7H12" stroke="#303030" strokeWidth="2" strokeLinecap="round" />
