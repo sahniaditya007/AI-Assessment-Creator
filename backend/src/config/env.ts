@@ -3,6 +3,15 @@ import path from "path";
 
 dotenv.config();
 
+function parseFrontendOrigins(): string[] {
+  const raw = process.env.FRONTEND_URLS ?? process.env.FRONTEND_URL ?? "http://localhost:3000";
+
+  return raw
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+}
+
 function resolveUploadDir(): string {
   const configured = process.env.UPLOAD_DIR ?? "uploads";
   const resolved = path.resolve(configured);
@@ -31,6 +40,7 @@ export const env = {
   useMockAi:
     process.env.USE_MOCK_AI === "true" || !process.env.OPENROUTER_API_KEY,
 
-  frontendUrl: process.env.FRONTEND_URL ?? "http://localhost:3000",
+  frontendOrigins: parseFrontendOrigins(),
+  frontendUrl: parseFrontendOrigins()[0],
   uploadDir: resolveUploadDir(),
 };

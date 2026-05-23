@@ -4,13 +4,6 @@
             "root": "frontend",
             "routePrefix": "/",
             "framework": "nextjs"
-        },
-        "backend": {
-            "root": "backend",
-            "workspace": "backend",
-            "routePrefix": "/_/backend",
-            "framework": "express",
-            "entrypoint": "src/index.ts"
         }
     }
 }

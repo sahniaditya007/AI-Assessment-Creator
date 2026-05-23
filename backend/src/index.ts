@@ -16,7 +16,7 @@ initWebSocket(server);
 
 app.use(
   cors({
-    origin: env.frontendUrl,
+    origin: env.frontendOrigins,
     credentials: true,
   })
 );

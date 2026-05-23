@@ -8,7 +8,7 @@ let io: Server | null = null;
 export function initWebSocket(httpServer: HttpServer): Server {
   io = new Server(httpServer, {
     cors: {
-      origin: env.frontendUrl,
+      origin: env.frontendOrigins,
       methods: ["GET", "POST"],
     },
   });
