@@ -22,7 +22,19 @@ export function TopBar({ showBack, breadcrumb }: TopBarProps) {
         >
           <ArrowLeft />
         </button>
-      ) : null}
+      ) : (
+        /* Logo — only visible on mobile where sidebar is hidden */
+        <Link href="/" className="flex items-center gap-2 lg:hidden">
+          <div className="flex h-7 w-7 items-center justify-center rounded-[7px] bg-primary">
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+              <path d="M3 6L10 3L17 6V14L10 17L3 14V6Z" fill="white" />
+            </svg>
+          </div>
+          <span className="text-[20px] font-bold leading-5 tracking-[-0.06em] text-primary">
+            VedaAI
+          </span>
+        </Link>
+      )}
 
       <div className="flex flex-1 items-center gap-2 text-base">
         {breadcrumb && (
@@ -42,8 +54,8 @@ export function TopBar({ showBack, breadcrumb }: TopBarProps) {
         <span className="absolute right-0 top-0 h-2 w-2 rounded-full bg-accent" />
       </button>
 
-      <div className="flex items-center gap-2 rounded-xl px-3 py-1.5">
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-bg-off-white text-sm">
+      <div className="flex items-center gap-2 rounded-xl px-2 py-1.5 md:px-3">
+        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-bg-off-white text-sm font-semibold">
           JD
         </div>
         <span className="hidden text-base font-semibold text-primary sm:inline">

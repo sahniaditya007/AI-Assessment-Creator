@@ -38,14 +38,21 @@
   }
 
   .form-panel {
-    @apply rounded-4xl bg-white/50 p-8;
+    @apply rounded-4xl bg-white/50 p-6 md:p-8;
   }
 
   .upload-zone {
-    @apply flex flex-col items-center justify-center gap-4 rounded-3xl border-[1.75px] border-dashed border-black/20 bg-white px-8 py-6;
+    @apply flex flex-col items-center justify-center gap-4 rounded-3xl border-[1.75px] border-dashed border-black/20 bg-white px-6 py-6 md:px-8;
   }
 
   .instructions-box {
     @apply flex min-h-[102px] flex-col justify-between rounded-2xl border-[1.25px] border-dashed border-border-muted bg-white/25 p-4;
+  }
+}
+
+@layer utilities {
+  /* Safe area padding for iOS home indicator */
+  .pb-safe {
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
   }
 }

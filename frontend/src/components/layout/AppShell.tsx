@@ -1,5 +1,6 @@
 import { Sidebar } from "./Sidebar";
 import { TopBar } from "./TopBar";
+import { MobileNav } from "./MobileNav";
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -17,12 +18,15 @@ export function AppShell({
   breadcrumb,
 }: AppShellProps) {
   return (
-    <div className="min-h-screen bg-canvas p-3 md:p-3">
+    <div className="min-h-screen bg-canvas p-3">
       <div className="mx-auto flex min-h-[calc(100vh-24px)] max-w-[1440px] gap-3">
+        {/* Desktop sidebar — hidden on mobile */}
         <Sidebar />
+
         <div className="flex min-w-0 flex-1 flex-col gap-3">
           <TopBar showBack={showBack} breadcrumb={breadcrumb} />
-          <main className="flex-1 overflow-auto">
+
+          <main className="flex-1 overflow-auto pb-24 lg:pb-0">
             {(title || subtitle) && (
               <div className="mb-6 flex items-center gap-3 px-2 md:px-0">
                 <span className="relative flex h-3 w-3 shrink-0">
@@ -43,6 +47,9 @@ export function AppShell({
           </main>
         </div>
       </div>
+
+      {/* Mobile bottom nav — hidden on desktop */}
+      <MobileNav />
     </div>
   );
 }

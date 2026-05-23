@@ -139,7 +139,10 @@ export function AssignmentForm() {
             <label className="text-p-3 font-bold text-primary" htmlFor="due-date">Due Date</label>
             <div
               className="pill-input bg-transparent cursor-pointer"
-              onClick={() => document.getElementById("due-date")?.showPicker?.()}
+              onClick={() => {
+                const el = document.getElementById("due-date") as HTMLInputElement | null;
+                el?.showPicker?.();
+              }}
             >
               <input
                 id="due-date"
@@ -157,14 +160,15 @@ export function AssignmentForm() {
           </div>
 
           {/* Question types */}
-          <div className="flex flex-col gap-4 lg:flex-row lg:gap-16">
+          <div className="flex flex-col gap-4">
             <div className="flex flex-1 flex-col gap-4">
               <label className="text-p-3 font-bold text-primary">
                 Question Type
               </label>
 
               {form.questionTypes.map((qt, index) => (
-                <div key={index} className="flex items-center gap-3">
+                <div key={index} className="flex flex-col gap-3 rounded-3xl bg-white p-3 md:flex-row md:items-center md:rounded-none md:bg-transparent md:p-0">
+                  {/* Type selector */}
                   <div className="pill-input-white flex flex-1 justify-between">
                     <select
                       className="flex-1 appearance-none bg-transparent text-p-3 font-medium outline-none"
@@ -183,18 +187,49 @@ export function AssignmentForm() {
                     </select>
                     <ChevronDown />
                   </div>
-                  {form.questionTypes.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => removeQuestionType(index)}
-                      className="flex h-4 w-4 shrink-0 items-center justify-center text-primary"
-                      aria-label="Remove question type"
-                    >
-                      <CloseIcon />
-                    </button>
-                  )}
+
+                  {/* Count + Marks row */}
+                  <div className="flex items-center gap-3">
+                    <div className="flex flex-1 flex-col items-center gap-1">
+                      <span className="text-p-4 font-medium text-primary md:hidden">Questions</span>
+                      <CounterInput
+                        value={qt.count}
+                        onChange={(count) => updateQuestionType(index, { count })}
+                      />
+                    </div>
+                    <div className="flex flex-1 flex-col items-center gap-1">
+                      <span className="text-p-4 font-medium text-primary md:hidden">Marks</span>
+                      <CounterInput
+                        value={qt.marksPerQuestion}
+                        onChange={(marksPerQuestion) =>
+                          updateQuestionType(index, { marksPerQuestion })
+                        }
+                      />
+                    </div>
+                    {form.questionTypes.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removeQuestionType(index)}
+                        className="flex h-4 w-4 shrink-0 items-center justify-center text-primary"
+                        aria-label="Remove question type"
+                      >
+                        <CloseIcon />
+                      </button>
+                    )}
+                  </div>
                 </div>
               ))}
+
+              {/* Totals summary */}
+              <div className="flex items-center justify-between rounded-2xl bg-bg-off-white-20 px-4 py-2 md:hidden">
+                <span className="text-p-4 font-medium text-primary">Total Questions: {form.totalQuestions}</span>
+                <span className="text-p-4 font-medium text-primary">Total Marks: {form.totalMarks}</span>
+              </div>
+              {(formErrors.totalQuestions || formErrors.totalMarks) && (
+                <p className="text-p-4 text-red-600 md:hidden">
+                  {formErrors.totalQuestions || formErrors.totalMarks}
+                </p>
+              )}
 
               <button
                 type="button"
@@ -210,7 +245,8 @@ export function AssignmentForm() {
               </button>
             </div>
 
-            <div className="flex gap-4 lg:gap-4">
+            {/* Desktop: side-by-side counters with totals */}
+            <div className="hidden gap-4 md:flex lg:gap-4">
               <div className="flex flex-col items-center gap-4">
                 <span className="text-p-3 font-medium text-primary">
                   No. of Questions
@@ -293,8 +329,7 @@ export function AssignmentForm() {
             {submitting ? "Generating..." : "Continue"}
             {!submitting && <ArrowRightSmall />}
           </button>
-        </div>
-      </div>
+        </div>      </div>
     </form>
   );
 }

@@ -25,7 +25,7 @@ export function PaperActionBar({
   };
 
   return (
-    <div className="flex flex-wrap items-center justify-center gap-4">
+    <div className="flex w-full flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4">
       <button
         type="button"
         onClick={handleRegenerate}
@@ -36,7 +36,7 @@ export function PaperActionBar({
       </button>
       <a
         href={getPdfDownloadUrl(assignmentId)}
-        className="inline-flex items-center gap-2 rounded-pill bg-white px-6 py-2.5 text-p-3 font-medium text-primary shadow-sm"
+        className="inline-flex items-center justify-center gap-2 rounded-pill bg-white px-6 py-2.5 text-p-3 font-medium text-primary shadow-sm"
         download
       >
         <DownloadIcon />

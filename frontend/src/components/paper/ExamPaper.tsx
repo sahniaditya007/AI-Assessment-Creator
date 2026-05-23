@@ -15,9 +15,9 @@ export function ExamPaper({
   className: classLabel = "5th",
 }: ExamPaperProps) {
   return (
-    <article className="rounded-4xl bg-white p-8 font-inter md:p-8">
+    <article className="rounded-4xl bg-white p-5 font-inter md:p-8">
       <header className="text-center">
-        <h1 className="text-[32px] font-bold leading-[160%] tracking-[-0.04em] text-primary">
+        <h1 className="text-lg font-bold leading-[160%] tracking-[-0.04em] text-primary md:text-[32px]">
           {schoolName}
           <br />
           {paper.subject ? `Subject: ${paper.subject}` : ""}
@@ -26,29 +26,27 @@ export function ExamPaper({
         </h1>
       </header>
 
-      <div className="mt-6 flex flex-wrap justify-between gap-4 text-lg font-semibold leading-[160%] tracking-[-0.04em] text-primary">
-        <span>
-          Time Allowed: {paper.durationMinutes ?? 45} minutes
-        </span>
+      <div className="mt-4 flex flex-wrap justify-between gap-2 text-sm font-semibold leading-[160%] tracking-[-0.04em] text-primary md:mt-6 md:gap-4 md:text-lg">
+        <span>Time Allowed: {paper.durationMinutes ?? 45} minutes</span>
         <span>Maximum Marks: {paper.totalMarks}</span>
       </div>
 
-      <p className="mt-4 text-lg font-semibold leading-[160%] tracking-[-0.04em] text-primary">
+      <p className="mt-3 text-sm font-semibold leading-[160%] tracking-[-0.04em] text-primary md:mt-4 md:text-lg">
         All questions are compulsory unless stated otherwise.
       </p>
 
-      <div className="mt-4 space-y-1 text-lg font-semibold leading-[160%] tracking-[-0.04em] text-primary">
+      <div className="mt-3 space-y-1 text-sm font-semibold leading-[160%] tracking-[-0.04em] text-primary md:mt-4 md:text-lg">
         <p>Name: ______________________</p>
         <p>Roll Number: ________________</p>
         <p>Class: {classLabel} &nbsp; Section: __________</p>
       </div>
 
       {paper.sections.map((section) => (
-        <section key={section.id} className="mt-8">
-          <h2 className="text-center text-2xl font-semibold leading-[160%] tracking-[-0.04em] text-primary">
+        <section key={section.id} className="mt-6 md:mt-8">
+          <h2 className="text-center text-lg font-semibold leading-[160%] tracking-[-0.04em] text-primary md:text-2xl">
             Section {section.label}
           </h2>
-          <p className="mt-2 text-lg font-semibold leading-[160%] tracking-[-0.04em] text-primary">
+          <p className="mt-2 text-sm font-semibold leading-[160%] tracking-[-0.04em] text-primary md:text-lg">
             {section.title.replace(/^Section [A-Z]\s*[—-]\s*/i, "")}
             {" — "}
             {section.instruction}
@@ -56,9 +54,12 @@ export function ExamPaper({
               ` Each question carries ${section.questions[0].marks} mark${section.questions[0].marks !== 1 ? "s" : ""}.`}
           </p>
 
-          <div className="mt-4 space-y-0">
+          <div className="mt-3 space-y-2 md:mt-4 md:space-y-0">
             {section.questions.map((q) => (
-              <div key={q.id} className="leading-[240%] tracking-[-0.04em] text-primary">
+              <div
+                key={q.id}
+                className="rounded-2xl bg-bg-off-white p-3 text-sm leading-[200%] tracking-[-0.04em] text-primary md:rounded-none md:bg-transparent md:p-0 md:text-base md:leading-[240%]"
+              >
                 <span className="inline">
                   <DifficultyBadge difficulty={q.difficulty} /> {q.text}{" "}
                 </span>
@@ -66,9 +67,9 @@ export function ExamPaper({
                   [{q.marks} Mark{q.marks !== 1 ? "s" : ""}]
                 </span>
                 {q.options && q.options.length > 0 && (
-                  <ul className="ml-6 list-none space-y-1 pl-0">
+                  <ul className="mt-1 grid grid-cols-2 gap-x-4 gap-y-1 pl-0 md:ml-6 md:block md:space-y-1">
                     {q.options.map((opt, i) => (
-                      <li key={i} className="leading-[200%]">
+                      <li key={i} className="leading-[180%] md:leading-[200%]">
                         {String.fromCharCode(97 + i)}) {opt}
                       </li>
                     ))}

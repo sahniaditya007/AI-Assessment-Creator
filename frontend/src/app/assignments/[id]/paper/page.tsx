@@ -78,10 +78,10 @@ export default function PaperPage() {
   return (
     <AppShell showBack breadcrumb="Assignment Output">
       <div className="mx-auto max-w-content">
-        <div className="flex flex-col gap-6 rounded-4xl bg-bg-dark p-5">
+        <div className="flex flex-col gap-4 rounded-4xl bg-bg-dark p-3 md:gap-6 md:p-5">
           {/* Dark header banner */}
-          <div className="flex flex-col items-center gap-6 rounded-4xl bg-[rgba(24,24,24,0.8)] px-8 py-6 text-center">
-            <p className="text-p-1 font-bold leading-[140%] tracking-[-0.04em] text-white">
+          <div className="flex flex-col items-center gap-4 rounded-4xl bg-[rgba(24,24,24,0.8)] px-4 py-5 text-center md:gap-6 md:px-8 md:py-6">
+            <p className="text-p-3 font-bold leading-[140%] tracking-[-0.04em] text-white md:text-p-1">
               {paper.title}
               {paper.subject ? ` — ${paper.subject}` : ""}
             </p>
