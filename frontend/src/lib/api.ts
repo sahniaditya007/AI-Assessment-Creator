@@ -1,7 +1,14 @@
 import type { Assignment, GeneratedPaper } from "@/types/assessment";
 import type { AssignmentFormState } from "@/types/assessment";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+function getDefaultApiUrl(): string {
+  if (typeof window !== "undefined") {
+    return `${window.location.origin}/_/backend`;
+  }
+  return "http://localhost:4000";
+}
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? getDefaultApiUrl();
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${API_URL}${path}`, init);

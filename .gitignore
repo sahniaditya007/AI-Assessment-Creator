@@ -99,3 +99,4 @@ docker-compose.local.yml
 .vercel
 # Next.js auto-generated type declarations (regenerated on build)
 next-env.d.ts
+.env*
