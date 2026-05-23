@@ -16,7 +16,11 @@ An AI-powered tool for generating academic question papers. Provide a title, sub
 - **Mock AI mode** — run and develop without an OpenAI key
 
 ---
+## Architecture Overview
 
+<img width="980" height="670" alt="diagram-export-5-23-2026-5_56_20-PM" src="https://github.com/user-attachments/assets/127a4bbb-55f6-4af7-8657-0951edf0a550" />
+
+---
 ## Tech Stack
 
 | Layer | Technology |
